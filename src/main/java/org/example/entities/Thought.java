@@ -1,4 +1,4 @@
-package org.example.thought;
+package org.example.entities;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -33,6 +33,8 @@ public class Thought {
     private String mood;
     private int moodIntensity;
     private String thinkingErrorType;
+
+    private String automaticThought;
 
 
     public long getId() {
@@ -81,5 +83,13 @@ public class Thought {
 
     public void setThinkingErrorType(String thinkingErrorType) {
         this.thinkingErrorType = thinkingErrorType;
+    }
+
+    public String getAutomaticThought() {
+        return automaticThought;
+    }
+
+    public void setAutomaticThought(String automaticThought) {
+        this.automaticThought = automaticThought;
     }
 }
