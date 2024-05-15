@@ -23,18 +23,18 @@ import jakarta.persistence.SequenceGenerator;
 @Entity
 public class Thought {
 
+
     @Id
     @SequenceGenerator(name = "thought_sequence", sequenceName = "thought_sequence", allocationSize = 1, initialValue=1)
     @GeneratedValue(generator = "thought_sequence")
     private long id;
 
-    private String timeOfDay;
+    private String automaticThought;
     private String currentSituation;
+    private String thinkingErrorType;
+    private String timeOfDay;
     private String mood;
     private int moodIntensity;
-    private String thinkingErrorType;
-
-    private String automaticThought;
 
 
     public long getId() {
@@ -45,12 +45,12 @@ public class Thought {
         this.id = id;
     }
 
-    public String getTimeOfDay() {
-        return timeOfDay;
+    public String getAutomaticThought() {
+        return automaticThought;
     }
 
-    public void setTimeOfDay(String timeOfDay) {
-        this.timeOfDay = timeOfDay;
+    public void setAutomaticThought(String automaticThought) {
+        this.automaticThought = automaticThought;
     }
 
     public String getCurrentSituation() {
@@ -59,6 +59,22 @@ public class Thought {
 
     public void setCurrentSituation(String currentSituation) {
         this.currentSituation = currentSituation;
+    }
+
+    public String getThinkingErrorType() {
+        return thinkingErrorType;
+    }
+
+    public void setThinkingErrorType(String thinkingErrorType) {
+        this.thinkingErrorType = thinkingErrorType;
+    }
+
+    public String getTimeOfDay() {
+        return timeOfDay;
+    }
+
+    public void setTimeOfDay(String timeOfDay) {
+        this.timeOfDay = timeOfDay;
     }
 
     public String getMood() {
@@ -75,21 +91,5 @@ public class Thought {
 
     public void setMoodIntensity(int moodIntensity) {
         this.moodIntensity = moodIntensity;
-    }
-
-    public String getThinkingErrorType() {
-        return thinkingErrorType;
-    }
-
-    public void setThinkingErrorType(String thinkingErrorType) {
-        this.thinkingErrorType = thinkingErrorType;
-    }
-
-    public String getAutomaticThought() {
-        return automaticThought;
-    }
-
-    public void setAutomaticThought(String automaticThought) {
-        this.automaticThought = automaticThought;
     }
 }
