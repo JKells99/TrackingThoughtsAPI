@@ -23,6 +23,7 @@ import jakarta.persistence.SequenceGenerator;
 @Entity
 public class Thought {
 
+
     @Id
     @SequenceGenerator(name = "thought_sequence", sequenceName = "thought_sequence", allocationSize = 1, initialValue=1)
     @GeneratedValue(generator = "thought_sequence")

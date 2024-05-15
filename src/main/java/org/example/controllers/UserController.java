@@ -44,7 +44,7 @@ public class UserController {
         if(userService.loginUser(loginCreds.getUsername(),loginCreds.getPassword())){
             return  ResponseEntity.ok("Login Good To go");
         } else{
-            return  ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            return  ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Username Or Password Is Incorrect/User Not Found");
         }
 
 
