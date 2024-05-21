@@ -28,8 +28,12 @@ public class UserController {
     @Value("${jwt.expirationMs}")
     private long jwtExpirationMs;
 
+    @Value("${jwt.tokenSecret}")
+    private String jwtTokenSercet;
+
     @PostMapping("/signup")
     public ResponseEntity<User> addANewThought(@RequestBody User user){
+
 
         if(user != null){
             try{
@@ -50,6 +54,7 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginCreds loginCreds){
+        System.out.println(jwtTokenSercet);
 
         if(userService.loginUser(loginCreds.getUsername(),loginCreds.getPassword())){
             String username = loginCreds.getUsername();
@@ -68,7 +73,8 @@ public class UserController {
                 .setSubject(username)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
-                .signWith(SignatureAlgorithm.HS512,JwtSecretKeyGenerator.generateJwtSecretKey())
+                .claim("username",username)
+                .signWith(SignatureAlgorithm.HS512, jwtTokenSercet)
                 .compact();
     }
 
