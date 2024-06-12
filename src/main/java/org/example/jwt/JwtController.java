@@ -1,23 +1,22 @@
 package org.example.jwt;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtParser;
-import io.jsonwebtoken.Jwts;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.jsonwebtoken.*;
 import org.example.service.UserService;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Key;
+import java.util.Base64;
 import java.util.logging.Logger;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/auth")
 public class JwtController {
 
@@ -28,17 +27,34 @@ public class JwtController {
     private UserService userService;
 
     @PostMapping("/verify")
-    public ResponseEntity<?> verifyToken(@RequestBody String token) {
+    public ResponseEntity<?> verifyToken(@RequestBody String requestBody) {
         try {
+            // Parse the request body as JSON to extract the token
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode requestJson = objectMapper.readTree(requestBody);
+            String token = requestJson.get("token").asText();
+
             // Logging for debugging
-            System.out.println("JWT Token Secret: " + jwtTokenSecret);
-            System.out.println("JWT Token: " + token.trim());
+            System.out.println("Extracted JWT Token: " + token);
+
+            // Clean the token
+            String cleanedToken = token.replace("\"", "").trim();
+            System.out.println("Cleaned JWT Token: " + cleanedToken);
+
+            // Ensure the token is properly formatted
+            if (!cleanedToken.matches("^[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_.+/=]*$")) {
+                System.out.println("Invalid token format");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token format");
+            }
+
+            // Decode the secret key
+            byte[] secretKeyBytes = Base64.getDecoder().decode(jwtTokenSecret.trim());
 
             // Parse the claims from the JWT token using the provided secret key
             Claims claims = Jwts.parserBuilder()
-                    .setSigningKey(jwtTokenSecret.trim().getBytes())
+                    .setSigningKey(secretKeyBytes)
                     .build()
-                    .parseClaimsJws(token.strip())
+                    .parseClaimsJws(cleanedToken)
                     .getBody();
 
             // Extract the username from the token claims
@@ -47,18 +63,23 @@ public class JwtController {
 
             // Check if the user is valid
             if (!userService.isValidUser(username)) {
-                // Return a 401 Unauthorized response with a message indicating the token is invalid
+                System.out.println("Invalid user: " + username);
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token");
             }
 
-            // Return a 200 OK response with a message indicating the token is valid
+            // Return a success response if the token is valid
             return ResponseEntity.ok("Token is valid");
-        } catch (Exception e) {
-            // Log the exception for debugging purposes
+        } catch (MalformedJwtException | io.jsonwebtoken.security.SecurityException e) {
+            System.out.println("Invalid JWT signature");
             e.printStackTrace();
-            e.getCause();
-
-            // Return a 401 Unauthorized response with a message indicating the token is invalid
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid JWT signature");
+        } catch (ExpiredJwtException e) {
+            System.out.println("Token has expired");
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token has expired");
+        } catch (Exception e) {
+            System.out.println("Token verification failed");
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token");
         }
     }

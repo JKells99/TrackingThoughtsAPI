@@ -6,7 +6,7 @@ import org.example.entities.LoginCreds;
 import org.example.entities.Thought;
 import org.example.entities.User;
 import org.example.jwt.JwtResponse;
-import org.example.jwt.JwtSecretKeyGenerator;
+
 import org.example.logger.AppLogger;
 import org.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
