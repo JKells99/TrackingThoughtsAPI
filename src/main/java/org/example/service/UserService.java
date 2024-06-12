@@ -37,4 +37,14 @@ public class UserService {
         }
 
     }
+
+    public boolean isValidUser(String username){
+        User user = userRestRepository.findByuserName(username);
+        if(user == null){
+            System.out.println("User Not Valid");
+        } else {
+            return true;
+        }
+        return false;
+    }
 }
