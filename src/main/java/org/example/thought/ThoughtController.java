@@ -1,6 +1,6 @@
 package org.example.thought;
 
-import org.example.logger.AppLogger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @CrossOrigin
 @RestController
 @RequestMapping("api/allthought")
@@ -25,11 +26,11 @@ public class ThoughtController {
 
         try{
             if(allThoughts!= null){
-                AppLogger.logSuccess("Fetched A List Of All Thoughts");
+                log.info("Fetched A List Of All Thoughts");
                 return ResponseEntity.ok(allThoughts);
             }
         } catch(Error  e){
-            AppLogger.logError("Could Not Fetch The List If Thoughts",e);
+            log.error("Could Not Fetch The List If Thoughts",e);
 
 
         }
@@ -44,12 +45,11 @@ public class ThoughtController {
         if(thought != null){
             try{
                 Thought newThought = thoughtService.createThought(thought);
-                AppLogger.logSuccess("Thought Created Successfully");
+                log.info("Created A New Thought");
                 return ResponseEntity.ok(newThought);
             } catch (Error e){
-                AppLogger.logError("Cannot Create A New Thought",e);
-                e.printStackTrace();
-                e.getCause();
+                log.error("Cannot Create A New Thought",e);
+
             }
         }
         else{

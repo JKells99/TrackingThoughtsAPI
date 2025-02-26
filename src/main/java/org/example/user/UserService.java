@@ -1,10 +1,11 @@
 package org.example.user;
 
-import org.example.logger.AppLogger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 public class UserService {
 
@@ -18,7 +19,7 @@ public class UserService {
             User newUser = userRestRepository.save(user);
             return newUser;
         } catch(Error e){
-            AppLogger.logError("Error Creating A New User",e);
+            log.error("Error Creating A New User",e);
         }
 
         return user;

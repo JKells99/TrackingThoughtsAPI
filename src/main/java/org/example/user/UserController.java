@@ -2,9 +2,9 @@ package org.example.user;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.extern.slf4j.Slf4j;
 import org.example.jwt.JwtResponse;
 
-import org.example.logger.AppLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 
+@Slf4j
 @CrossOrigin
 @RestController
 @RequestMapping("api/users")
@@ -34,12 +35,10 @@ public class UserController {
         if(user != null){
             try{
                 User newUser = userService.signUpUser(user);
-                AppLogger.logSuccess("User Created Successfully");
+                log.info("User Created Successfully");
                 return ResponseEntity.ok(newUser);
             } catch (Error e){
-                AppLogger.logError("Cannot Create A New User In Controller",e);
-                e.printStackTrace();
-                e.getCause();
+                log.error("Cannot Create A New User In Controller",e);
             }
         }
         else{

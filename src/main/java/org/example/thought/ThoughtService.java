@@ -1,11 +1,12 @@
 package org.example.thought;
 
-import org.example.logger.AppLogger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Slf4j
 @Service
 public class ThoughtService {
     @Autowired
@@ -14,12 +15,10 @@ public class ThoughtService {
 
         try{
             List<Thought> allThoughts = thoughtRestRepository.findAll();
-            if(allThoughts != null){
-                AppLogger.logSuccess("Service Method For Fetching Methods Was Accessed");
-                return allThoughts;
-            }
+            log.info("Service Method For Fetching Methods Was Accessed");
+            return allThoughts;
         } catch(Error e){
-            AppLogger.logError("Error Fetching Thoughts In Service Class",e);
+            log.error("Error Fetching Thoughts In Service Class",e);
         }
         return null;
     }
@@ -28,11 +27,12 @@ public class ThoughtService {
 
         try{
             Thought newThought = thoughtRestRepository.save(thought);
-            AppLogger.logSuccess("Thought Created in Service Successfully");
+            log.info("Service Method For Creating Thought Was Accessed");
             return newThought;
 
         } catch(Error e){
-            AppLogger.logError("Error Creating Thought In The Service Class", e);
+
+            log.error("Error Creating Thought In The Service Class", e);
         }
 
         return thought;

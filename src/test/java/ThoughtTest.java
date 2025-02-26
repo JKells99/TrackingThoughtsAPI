@@ -1,3 +1,4 @@
+import org.example.thought.ThinkingErrorTypes;
 import org.example.thought.Thought;
 import org.example.thought.ThoughtRestRepository;
 import org.example.thought.ThoughtService;
@@ -40,7 +41,7 @@ public class ThoughtTest {
         thought.setMood("Anxious");
         thought.setMoodIntensity(60);
         thought.setTimeOfDay("Day");
-        thought.setThinkingErrorType("All Or Nothing, Catastorphizing");
+        thought.setThinkingErrorType(ThinkingErrorTypes.MIND_READING);
 
         List<Thought> thoughtList = Arrays.asList(thought);
         Assertions.assertTrue(thoughtList.contains(thought));
@@ -57,7 +58,7 @@ public class ThoughtTest {
         thought.setMood("Anxious");
         thought.setMoodIntensity(60);
         thought.setTimeOfDay("Day");
-        thought.setThinkingErrorType("All Or Nothing, Catastorphizing");
+        thought.setThinkingErrorType(ThinkingErrorTypes.EMOTIONAL_REASONING);
 
         thought2.setId(2L);
         thought2.setCurrentSituation("Test Situation2");
@@ -65,7 +66,7 @@ public class ThoughtTest {
         thought2.setMood("Sad");
         thought2.setMoodIntensity(60);
         thought2.setTimeOfDay("Day");
-        thought2.setThinkingErrorType("All Or Nothing, Catastorphizing");
+        thought2.setThinkingErrorType(ThinkingErrorTypes.LABELING);
 
         List<Thought> thoughtList = Arrays.asList(thought,thought2);
 
