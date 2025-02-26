@@ -1,6 +1,5 @@
-package org.example.repositories;
+package org.example.thought;
 
-import org.example.entities.Thought;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 

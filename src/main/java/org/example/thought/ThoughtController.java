@@ -1,8 +1,6 @@
-package org.example.controllers;
+package org.example.thought;
 
-import org.example.entities.Thought;
-import org.example.logger.AppLogger;
-import org.example.service.ThoughtService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,9 +8,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @CrossOrigin
 @RestController
-@RequestMapping("/allthoughts")
+@RequestMapping("api/allthought")
 public class ThoughtController {
 
 
@@ -20,37 +19,37 @@ public class ThoughtController {
     @Autowired
     private ThoughtService thoughtService;
 
-    @GetMapping
-    public ResponseEntity<List<Thought>> getThoughts() {
+
+    @GetMapping("/getAllThoughts")
+    public ResponseEntity<?> getThoughts() {
         List<Thought> allThoughts = thoughtService.getAllThoughts();
 
         try{
             if(allThoughts!= null){
-                AppLogger.logSuccess("Fetched A List Of All Thoughts");
+                log.info("Fetched A List Of All Thoughts");
                 return ResponseEntity.ok(allThoughts);
             }
         } catch(Error  e){
-            AppLogger.logError("Could Not Fetch The List If Thoughts",e);
+            log.error("Could Not Fetch The List If Thoughts",e);
 
 
         }
 
 
-        return null;
+        return new ResponseEntity<>("No Thoughts Found", HttpStatus.NO_CONTENT);
     }
 
-   @PostMapping("/post")
+   @PostMapping("/addNewThought")
     public ResponseEntity<Thought> addANewThought(@RequestBody Thought thought){
 
         if(thought != null){
             try{
                 Thought newThought = thoughtService.createThought(thought);
-                AppLogger.logSuccess("Thought Created Successfully");
+                log.info("Created A New Thought");
                 return ResponseEntity.ok(newThought);
             } catch (Error e){
-                AppLogger.logError("Cannot Create A New Thought",e);
-                e.printStackTrace();
-                e.getCause();
+                log.error("Cannot Create A New Thought",e);
+
             }
         }
         else{
