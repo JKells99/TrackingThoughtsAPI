@@ -1,14 +1,10 @@
-package org.example.controllers;
+package org.example.user;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.example.entities.LoginCreds;
-import org.example.entities.Thought;
-import org.example.entities.User;
 import org.example.jwt.JwtResponse;
 
 import org.example.logger.AppLogger;
-import org.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -19,7 +15,7 @@ import java.util.Date;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/users")
+@RequestMapping("api/users")
 public class UserController {
 
     @Autowired

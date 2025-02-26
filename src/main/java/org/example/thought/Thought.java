@@ -1,37 +1,21 @@
-package org.example.entities;
+package org.example.thought;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.SequenceGenerator;
-
-//    A Tracked Thought Has
-//*
-// Id
-// Time Of Day
-// Current Situation
-// Mood
-// Mood Intensity
-// Type Of Thinking Error
-//
-//
-//
-//
-//
-// *//
+import jakarta.persistence.*;
 
 @Entity
 public class Thought {
 
 
     @Id
-    @SequenceGenerator(name = "thought_sequence", sequenceName = "thought_sequence", allocationSize = 1, initialValue=1)
-    @GeneratedValue(generator = "thought_sequence")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     private String automaticThought;
     private String currentSituation;
-    private String thinkingErrorType;
+
+    @Enumerated(EnumType.STRING)
+    private ThinkingErrorTypes thinkingErrorType = ThinkingErrorTypes.NONE;
+
     private String timeOfDay;
     private String mood;
     private int moodIntensity;
@@ -61,11 +45,11 @@ public class Thought {
         this.currentSituation = currentSituation;
     }
 
-    public String getThinkingErrorType() {
+    public ThinkingErrorTypes getThinkingErrorType() {
         return thinkingErrorType;
     }
 
-    public void setThinkingErrorType(String thinkingErrorType) {
+    public void setThinkingErrorType(ThinkingErrorTypes thinkingErrorType) {
         this.thinkingErrorType = thinkingErrorType;
     }
 

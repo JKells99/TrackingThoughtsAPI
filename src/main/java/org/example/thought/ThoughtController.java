@@ -1,8 +1,6 @@
-package org.example.controllers;
+package org.example.thought;
 
-import org.example.entities.Thought;
 import org.example.logger.AppLogger;
-import org.example.service.ThoughtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +10,7 @@ import java.util.List;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/allthoughts")
+@RequestMapping("api/allthought")
 public class ThoughtController {
 
 
@@ -20,8 +18,9 @@ public class ThoughtController {
     @Autowired
     private ThoughtService thoughtService;
 
-    @GetMapping
-    public ResponseEntity<List<Thought>> getThoughts() {
+
+    @GetMapping("/getAllThoughts")
+    public ResponseEntity<?> getThoughts() {
         List<Thought> allThoughts = thoughtService.getAllThoughts();
 
         try{
@@ -36,10 +35,10 @@ public class ThoughtController {
         }
 
 
-        return null;
+        return new ResponseEntity<>("No Thoughts Found", HttpStatus.NO_CONTENT);
     }
 
-   @PostMapping("/post")
+   @PostMapping("/addNewThought")
     public ResponseEntity<Thought> addANewThought(@RequestBody Thought thought){
 
         if(thought != null){

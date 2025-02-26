@@ -1,10 +1,7 @@
-package org.example.service;
+package org.example.user;
 
-import org.example.entities.User;
 import org.example.logger.AppLogger;
-import org.example.repositories.UserRestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 

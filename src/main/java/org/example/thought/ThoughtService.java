@@ -1,12 +1,9 @@
-package org.example.service;
+package org.example.thought;
 
-import org.example.entities.Thought;
 import org.example.logger.AppLogger;
-import org.example.repositories.ThoughtRestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Method;
 import java.util.List;
 
 @Service
